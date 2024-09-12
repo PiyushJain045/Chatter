@@ -1,39 +1,59 @@
 {% load static %}
-<header class="flex items-center justify-between bg-gray-800 h-20 px-8 text-white sticky top-0 z-40">
+<header style="display: flex; justify-content: space-between; align-items: center; background-color: #3b82f6; height: 70px; padding: 0 20px; color: white; position: sticky; top: 0; z-index: 40; font-family: Arial, sans-serif;">
     <div>
-        <a class="flex items-center gap-2" href="/">
-            <img class="h-6" src="{% static 'images/logo.svg' %}" alt="Logo"/>
-            <span class="text-lg font-bold">Real-time Chat</span>
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white;">
+            <img src="{% static 'images/logo.svg' %}" alt="Logo" style="height: 30px;" />
+            <span style="font-size: 18px; font-weight: bold;">Chatter</span>
         </a>
     </div>
-    <nav class="block relative">
-        <ul class="navitems flex items-center justify-center h-full">
+    <nav>
+        <ul style="display: flex; list-style: none; gap: 20px; margin: 0; padding: 0; align-items: center;">
             {% if request.user.is_authenticated %}
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li x-data="{ dropdownOpen: false }" class="relative">
-                <a @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" class="cursor-pointer select-none">
-                    <img class="h-8 w-8 rounded-full object-cover" src="{{ request.user.profile.avatar }}" alt="Avatar" />
+            <li><a href="{% url 'home' %}" style="text-decoration: none; color: white;">Home</a></li>
+            <li style="position: relative;">
+                <a href="javascript:void(0)" onclick="toggleDropdown()" style="cursor: pointer; display: flex; align-items: center; color: white; text-decoration: none;">
+                    <img src="{{ request.user.profile.avatar }}" alt="Avatar" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
                     {{ request.user.profile.name }}
-                    <img x-bind:class="dropdownOpen && 'rotate-180 duration-300'" class="w-4" src="https://img.icons8.com/small/32/ffffff/expand-arrow.png" alt="Dropdown" />
+                    <img id="dropdown-arrow" src="https://img.icons8.com/small/32/ffffff/expand-arrow.png" alt="Dropdown" style="width: 16px; margin-left: 5px;">
                 </a>
-                <div x-show="dropdownOpen" x-cloak class="absolute right-0 bg-white text-black shadow rounded-lg w-40 p-2 z-20"
-                x-transition:enter="duration-300 ease-out"
-                x-transition:enter-start="opacity-0 -translate-y-5 scale-90"
-                x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-                >
-                    <ul class="hoverlist [&>li>a]:justify-end">
-                        <li><a href="{% url 'profile' %}">My Profile</a></li>
-                        <li><a href="{% url 'profile-edit' %}">Edit Profile</a></li>
-                        <li><a href="{% url 'profile-settings' %}">Settings</a></li>
-                        <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+                <div id="dropdown-menu" style="display: none; position: absolute; right: 0; background-color: white; color: black; border-radius: 10px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); width: 150px; padding: 10px; z-index: 50;">
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li><a href="{% url 'profile' %}" style="text-decoration: none; color: black; padding: 8px 0; display: block;">My Profile</a></li>
+                        <li><a href="{% url 'profile-edit' %}" style="text-decoration: none; color: black; padding: 8px 0; display: block;">Edit Profile</a></li>
+                        <li><a href="{% url 'profile-settings' %}" style="text-decoration: none; color: black; padding: 8px 0; display: block;">Settings</a></li>
+                        <li><a href="{% url 'account_logout' %}" style="text-decoration: none; color: black; padding: 8px 0; display: block;">Log Out</a></li>
                     </ul>
                 </div>
             </li>
-            
             {% else %}
-            <li><a href="{% url 'account_login' %}">Login</a></li>
-            <li><a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}">Signup</a></li>
+            <li><a href="{% url 'account_login' %}" style="text-decoration: none; color: white;">Login</a></li>
+            <li><a href="{% url 'account_signup' %}?next={% url 'profile-onboarding' %}" style="text-decoration: none; color: white;">Signup</a></li>
             {% endif %}
         </ul>
     </nav>
 </header>
+
+<script>
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById('dropdown-menu');
+        var dropdownArrow = document.getElementById('dropdown-arrow');
+        if (dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '') {
+            dropdownMenu.style.display = 'block';
+            dropdownArrow.style.transform = 'rotate(180deg)';
+        } else {
+            dropdownMenu.style.display = 'none';
+            dropdownArrow.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    window.onclick = function(event) {
+        if (!event.target.matches('a[onclick="toggleDropdown()"]')) {
+            var dropdownMenu = document.getElementById('dropdown-menu');
+            var dropdownArrow = document.getElementById('dropdown-arrow');
+            if (dropdownMenu.style.display === 'block') {
+                dropdownMenu.style.display = 'none';
+                dropdownArrow.style.transform = 'rotate(0deg)';
+            }
+        }
+    };
+</script>
