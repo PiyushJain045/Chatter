@@ -1,0 +1,1 @@
+This apps currently dosen't allows for the creation of new groups and still a lot of works remains
