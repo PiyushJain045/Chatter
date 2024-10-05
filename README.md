@@ -1,5 +1,5 @@
-
-
+# Chatter
+Chatter is a Django-based real-time chatting application that uses Django Channels for websocket communication, enabling live chat between users.
 
 ## Installation 
 Open the folder in your preferred IDE and execute the following commands <br>
