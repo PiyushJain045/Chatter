@@ -1,1 +1,11 @@
-This apps currently dosen't allows for the creation of new groups and still a lot of works remains
+
+
+
+## Installation 
+Open the folder in your preferred IDE and execute the following commands <br>
+Note: **it is preferred to creta a virtual environment first** <br>
+- 1) pip install -r requirements.txt (Install dependencies) <br>
+- 2) python manage.py migrate (setup sqlite3 db) <br>
+- 3) python manage.py runserver (Run the Django development server) <br>
+
+That's it! Access the web app at the URL provided by the Django development server (usually http://127.0.0.1:8000).
